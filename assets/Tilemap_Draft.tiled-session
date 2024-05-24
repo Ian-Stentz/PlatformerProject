@@ -1,0 +1,46 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "PlatformerDraft.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "PlatformerDraft.tmx": {
+            "scale": 0.75,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1333.3333333333333,
+                "y": 222.66666666666666
+            }
+        },
+        "PlatformerDraft.tmx#Tileset_Base": {
+            "scaleInDock": 1
+        },
+        "PlatformerDraft.tmx#Tileset_Farm": {
+            "scaleInDock": 1
+        },
+        "PlatformerDraft.tmx#Tileset_Industrial": {
+            "scaleInDock": 1.5
+        }
+    },
+    "last.imagePath": "/Users/Lego207man/Desktop/CMPM120/PlatformerAssets/Assets",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 18,
+    "map.tileWidth": 18,
+    "map.width": 90,
+    "openFiles": [
+        "PlatformerDraft.tmx"
+    ],
+    "project": "Tilemap_Draft.tiled-project",
+    "recentFiles": [
+        "PlatformerDraft.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 18,
+        "width": 18
+    }
+}
