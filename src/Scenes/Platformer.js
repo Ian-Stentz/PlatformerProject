@@ -13,25 +13,25 @@ class Platformer extends Phaser.Scene {
 
     create() {
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
-        // 45 tiles wide and 25 tiles tall.
-        // 180 x 40
+        // w tiles wide and h tiles tall.*
+        // *180 x 40
         this.map = this.add.tilemap("platformer-final", 18, 18, 180, 40);
-
+        console.log(this.map);
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
         // Second parameter: key for the tilesheet (from this.load.image in Load.js)
-        this.tilesetB = this.map.addTilesetImage("Tileset_Base", "Tileset_Base");
-        this.tilesetF = this.map.addTilesetImage("Tileset_Farm", "Tileset_Farm");
-        this.tilesetI = this.map.addTilesetImage("Tileset_Industrial", "Tileset_Industrial");
-        //this.tileset = this.map.addTilesetImage("Tileset_Characters", "Tileset_Characters");
+        this.tilesetB = this.map.addTilesetImage("Tileset_Base", "TilesetBase");
+        this.tilesetF = this.map.addTilesetImage("Tileset_Farm", "TilesetFarm");
+        this.tilesetI = this.map.addTilesetImage("Tileset_Industrial", "TilesetIndustrial");
+        //this.tilesetC = this.map.addTilesetImage("Tileset_Characters", "Tileset_Characters");
+
+        this.tilesets = [this.tilesetB, this.tilesetF, this.tilesetI];
 
         // Create a layer
-        this.backgroundLayer = this.map.createLayer("Background", this.tileset, 0, 0);
-        this.backgroundLayer.setScale(2.0);
-        this.foregroundLayer = this.map.createLayer("Foreground", this.tileset, 0, 0);
-        this.foregroundLayer.setScale(2.0);
-        this.popLayer = this.map.createLayer("Popground", this.tileset, 0, 0);
-        this.popLayer.setScale(2.0);
+        this.backgroundLayer = this.map.createLayer("Background", this.tilesets, 0, 0).setScale(2.0);
+        console.log(this.backgroundLayer);
+        this.foregroundLayer = this.map.createLayer("Foreground", this.tilesets, 0, 0).setScale(2.0);
+        this.popLayer = this.map.createLayer("Popground", this.tilesets, 0, 0).setScale(2.0);
 
         // Make it collidable
         this.backgroundLayer.setCollisionByProperty({
