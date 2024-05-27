@@ -30,11 +30,18 @@ class Platformer extends Phaser.Scene {
 
         this.tilesets = [this.tilesetB, this.tilesetF, this.tilesetI];
 
+        this.map2 = this.add.tilemap("platformer-background", 24, 24, 135, 30);
+        this.tilesetBack = this.map2.addTilesetImage("Tileset_Background", "TilesetBackground");
+        this.parallaxLayer = this.map2.createLayer("Parallax", this.tilesetBack, 0, 0).setScale(2.0);
+        this.parallaxLayer.setScrollFactor(0.25);
+
         // Create a layer
         this.backgroundLayer = this.map.createLayer("Background", this.tilesets, 0, 0).setScale(2.0);
         console.log(this.backgroundLayer);
         this.foregroundLayer = this.map.createLayer("Foreground", this.tilesets, 0, 0).setScale(2.0);
         this.popLayer = this.map.createLayer("Popground", this.tilesets, 0, 0).setScale(2.0);
+
+        
 
         // Make it collidable
         this.backgroundLayer.setCollisionByProperty({

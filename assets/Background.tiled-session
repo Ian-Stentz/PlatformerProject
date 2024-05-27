@@ -1,0 +1,65 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "PlatformerBackground.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "": {
+            "scaleInEditor": 1
+        },
+        "PlatformerBackground.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 106.5,
+                "y": 328.5
+            }
+        },
+        "PlatformerBackground.tmx#Tileset_Background": {
+            "scaleInDock": 1
+        },
+        "PlatformerFinal.tmx": {
+            "scale": 1,
+            "selectedLayer": 1,
+            "viewCenter": {
+                "x": 1166.5,
+                "y": 470.5
+            }
+        },
+        "PlatformerFinal.tmx#Tileset_Base": {
+            "scaleInDock": 1
+        },
+        "PlatformerFinal.tmx#Tileset_Farm": {
+            "scaleInDock": 1
+        },
+        "PlatformerFinal.tmx#Tileset_Industrial": {
+            "scaleInDock": 1
+        }
+    },
+    "last.exportedFilePath": "C:/Users/ianst/Desktop/Homework/Game Dev Experience/PlatformerProject/assets",
+    "last.imagePath": "C:/Users/ianst/Desktop/Homework/Game Dev Experience/PlatformerProject/assets",
+    "map.height": 30,
+    "map.lastUsedExportFilter": "JSON map files (*.tmj *.json)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 24,
+    "map.tileWidth": 24,
+    "map.width": 135,
+    "openFiles": [
+        "PlatformerBackground.tmx"
+    ],
+    "project": "Background.tiled-project",
+    "property.type": "bool",
+    "recentFiles": [
+        "PlatformerFinal.tmx",
+        "PlatformerBackground.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.tileSize": {
+        "height": 24,
+        "width": 24
+    }
+}
