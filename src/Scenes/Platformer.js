@@ -5,10 +5,11 @@ class Platformer extends Phaser.Scene {
 
     init() {
         // variables and settings
-        this.ACCELERATION = 500;
-        this.DRAG = 700;    // DRAG < ACCELERATION = icy slide
+        this.ACCELERATION = 600;
+        this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
         this.physics.world.gravity.y = 1500;
-        this.JUMP_VELOCITY = -900;
+        this.JUMP_VELOCITY = -700;
+        this.TERMINAL_VELOCITY = 400;
         this.SCALE = 1.0;
     }
 
@@ -42,6 +43,9 @@ class Platformer extends Phaser.Scene {
         this.foregroundLayer.setCollisionByProperty({
             collides: true
         });
+        this.popLayer.setCollisionByProperty({
+            collides: true
+        });
 
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(game.config.width/4, game.config.height/2, "platformer_characters", "tile_0000.png").setScale(SCALE)
@@ -50,6 +54,7 @@ class Platformer extends Phaser.Scene {
         // Enable collision handling
         this.physics.add.collider(my.sprite.player, this.backgroundLayer);
         this.physics.add.collider(my.sprite.player, this.foregroundLayer);
+        this.physics.add.collider(my.sprite.player, this.popLayer);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -64,18 +69,25 @@ class Platformer extends Phaser.Scene {
         this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25);
         this.cameras.main.setDeadzone(0.25, 0.25);
         this.cameras.main.setZoom(this.SCALE);
+        my.sprite.player.setMaxVelocity(this.TERMINAL_VELOCITY, this.TERMINAL_VELOCITY * 5);
 
     }
 
     update() {
         if(cursors.left.isDown) {
             // TODO: have the player accelerate to the left
+            if(my.sprite.player.body.blocked.down && my.sprite.player.body.velocity.x > 0) {
+                my.sprite.player.body.setVelocityX(my.sprite.player.body.velocity.x / 2);
+            }
             my.sprite.player.body.setAccelerationX(-this.ACCELERATION);
             my.sprite.player.resetFlip();
             my.sprite.player.anims.play('walk', true);
 
         } else if(cursors.right.isDown) {
             // TODO: have the player accelerate to the right
+            if(my.sprite.player.body.blocked.down && my.sprite.player.body.velocity.x < 0) {
+                my.sprite.player.body.setVelocityX(my.sprite.player.body.velocity.x / 2);
+            }
             my.sprite.player.body.setAccelerationX(this.ACCELERATION);
             my.sprite.player.setFlip(true, false);
             my.sprite.player.anims.play('walk', true);
