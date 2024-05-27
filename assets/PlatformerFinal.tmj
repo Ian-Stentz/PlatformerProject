@@ -161,18 +161,6 @@
          "name":"CharacterSpawns",
          "objects":[
                 {
-                 "gid":429,
-                 "height":24,
-                 "id":1,
-                 "name":"PlayerSpawn",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":68.6666666666667,
-                 "y":629.333333333333
-                }, 
-                {
                  "gid":112,
                  "height":18,
                  "id":2,
@@ -183,138 +171,6 @@
                  "width":18,
                  "x":900,
                  "y":576
-                }, 
-                {
-                 "gid":477,
-                 "height":24,
-                 "id":3,
-                 "name":"Robyte",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1220,
-                 "y":504
-                }, 
-                {
-                 "gid":474,
-                 "height":24,
-                 "id":4,
-                 "name":"Robit",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1058,
-                 "y":630
-                }, 
-                {
-                 "gid":474,
-                 "height":24,
-                 "id":5,
-                 "name":"Robit",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1383,
-                 "y":611
-                }, 
-                {
-                 "gid":469,
-                 "height":24,
-                 "id":6,
-                 "name":"YapperSpawn",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1221,
-                 "y":704
-                }, 
-                {
-                 "gid":469,
-                 "height":24,
-                 "id":7,
-                 "name":"YapperSpawn",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1257,
-                 "y":704
-                }, 
-                {
-                 "gid":471,
-                 "height":24,
-                 "id":8,
-                 "name":"Spyke",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1491,
-                 "y":611
-                }, 
-                {
-                 "gid":478,
-                 "height":24,
-                 "id":9,
-                 "name":"Robyte",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":2229,
-                 "y":577
-                }, 
-                {
-                 "gid":478,
-                 "height":24,
-                 "id":10,
-                 "name":"Robyte",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1471,
-                 "y":290
-                }, 
-                {
-                 "gid":480,
-                 "height":24,
-                 "id":11,
-                 "name":"Birdbrain",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1601,
-                 "y":202
-                }, 
-                {
-                 "gid":480,
-                 "height":24,
-                 "id":12,
-                 "name":"Birdbrain",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1960,
-                 "y":200
-                }, 
-                {
-                 "gid":478,
-                 "height":24,
-                 "id":13,
-                 "name":"Robyte",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":24,
-                 "x":1923,
-                 "y":287
                 }, 
                 {
                  "gid":68,
@@ -1329,27 +1185,6 @@
                         }]
                 }],
          "tilewidth":18
-        }, 
-        {
-         "firstgid":405,
-         "source":"Tileset_Parallax.tsx"
-        }, 
-        {
-         "firstgid":429,
-         "source":"Tileset_Characters.tsx"
-        }, 
-        {
-         "columns":9,
-         "firstgid":456,
-         "image":"tilemap-characters_packed.png",
-         "imageheight":72,
-         "imagewidth":216,
-         "margin":0,
-         "name":"Tileset_Characters",
-         "spacing":0,
-         "tilecount":27,
-         "tileheight":24,
-         "tilewidth":24
         }],
  "tilewidth":18,
  "type":"map",
