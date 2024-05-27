@@ -9,6 +9,7 @@ class Platformer extends Phaser.Scene {
         this.DRAG = 700;    // DRAG < ACCELERATION = icy slide
         this.physics.world.gravity.y = 1500;
         this.JUMP_VELOCITY = -900;
+        this.SCALE = 1.0;
     }
 
     create() {
@@ -16,6 +17,7 @@ class Platformer extends Phaser.Scene {
         // w tiles wide and h tiles tall.*
         // *180 x 40
         this.map = this.add.tilemap("platformer-final", 18, 18, 180, 40);
+        this.physics.world.setBounds(0,0, 180*18*SCALE, 40*18*SCALE);
         console.log(this.map);
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
@@ -40,16 +42,14 @@ class Platformer extends Phaser.Scene {
         this.foregroundLayer.setCollisionByProperty({
             collides: true
         });
-        this.popLayer.setCollisionByProperty({
-            collides: true
-        });
 
         // set up player avatar
         my.sprite.player = this.physics.add.sprite(game.config.width/4, game.config.height/2, "platformer_characters", "tile_0000.png").setScale(SCALE)
         my.sprite.player.setCollideWorldBounds(true);
 
         // Enable collision handling
-        this.physics.add.collider(my.sprite.player, this.groundLayer);
+        this.physics.add.collider(my.sprite.player, this.backgroundLayer);
+        this.physics.add.collider(my.sprite.player, this.foregroundLayer);
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -59,6 +59,11 @@ class Platformer extends Phaser.Scene {
             this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
             this.physics.world.debugGraphic.clear()
         }, this);
+
+        this.cameras.main.setBounds(0, 0, this.map.widthInPixels*SCALE, this.map.heightInPixels*SCALE);
+        this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25);
+        this.cameras.main.setDeadzone(0.25, 0.25);
+        this.cameras.main.setZoom(this.SCALE);
 
     }
 
