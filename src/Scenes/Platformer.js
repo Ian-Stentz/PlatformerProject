@@ -76,7 +76,7 @@ class Platformer extends Phaser.Scene {
         this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25);
         this.cameras.main.setDeadzone(0.25, 0.25);
         this.cameras.main.setZoom(this.SCALE);
-        my.sprite.player.setMaxVelocity(this.TERMINAL_VELOCITY, this.TERMINAL_VELOCITY * 5);
+        my.sprite.player.setMaxVelocity(this.TERMINAL_VELOCITY, this.TERMINAL_VELOCITY * 2);
 
     }
 
