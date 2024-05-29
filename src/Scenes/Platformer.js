@@ -10,8 +10,13 @@ class Platformer extends Phaser.Scene {
         this.physics.world.gravity.y = 1500;
         this.JUMP_VELOCITY = -700;
         this.TERMINAL_VELOCITY = 400;
-        this.SCALE = 1.0;
+        this.CAMERA_SCALE = 1.0;
         this.PARTICLE_VELOCITY = 50;
+        this.ATTACK_COOLDOWN = 0.3;
+        this.ATTACK_LENGTH = 250
+        this.attackTimer = 0;
+        this.ATTACK_SCALE = 0.4;
+        this.ATTACK_RADIUS = 512/2 * this.ATTACK_SCALE;
     }
 
     create() {
@@ -72,10 +77,12 @@ class Platformer extends Phaser.Scene {
             this.physics.world.debugGraphic.clear()
         }, this);
 
+        this.input.keyboard.on('keydown-SPACE', () => {this.attack()}, this);
+
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels*SCALE, this.map.heightInPixels*SCALE);
         this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25);
         this.cameras.main.setDeadzone(0.25, 0.25);
-        this.cameras.main.setZoom(this.SCALE);
+        this.cameras.main.setZoom(this.CAMERA_SCALE);
         my.sprite.player.setMaxVelocity(this.TERMINAL_VELOCITY, this.TERMINAL_VELOCITY * 2);
 
         my.vfx.walking = this.add.particles(0, 0, "kenny-particles", {
@@ -91,10 +98,33 @@ class Platformer extends Phaser.Scene {
         });
         my.vfx.jump = this.add.particles(0, 0, "kenny-particles", {
             frame: ['smoke_02.png', 'smoke_03.png'],
-            scale: {start: 0.06, end: 0.04},
+            scale: {start: 0.04, end: 0.04},
             lifespan: 200,
             alpha: {start: 1, end: 0.5},
             gravityY: -300
+        })
+        my.vfx.attack = this.add.particles(0, 0, "kenny-particles", {
+            frame: ['twirl_01.png', 'twirl_02.png', 'twirl_03.png'],
+            rotate: {
+                onEmit: (particle) => {
+                    return particle.scaleX > 0 ? -150 : 150
+                },
+                onUpdate: (particle) => {
+                    return particle.angle + (particle.scaleX > 0 ? 12 : -12);
+                }
+            },
+            lifespan: this.ATTACK_LENGTH,
+            frequency: -1,
+            x: {
+                onUpdate: () => {
+                    return my.sprite.player.x     
+                }
+            },
+            y: {
+                onUpdate: () => {
+                    return my.sprite.player.y     
+                }
+            }
         })
 
         my.vfx.walking.stop();
@@ -104,7 +134,7 @@ class Platformer extends Phaser.Scene {
         my.sfx.music.play();
     }
 
-    update() {
+    update(time, delta) {
         if(cursors.left.isDown) {
             // TODO: have the player accelerate to the left
             if(my.sprite.player.body.blocked.down && my.sprite.player.body.velocity.x > 0) {
@@ -163,6 +193,10 @@ class Platformer extends Phaser.Scene {
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
             this.sound.play("Jump", {volume: 0.6});
         }
+
+        if (this.attackTimer > 0) {
+            this.attackTimer -= delta / 1000
+        }
     }
 
     setAudio(audio, newState) {
@@ -170,6 +204,19 @@ class Platformer extends Phaser.Scene {
             audio.play();
         } else if(audio.isPlaying && !newState) {
             audio.stop();
+        }
+    }
+
+    attack() {
+        if(this.attackTimer <= 0) {
+            my.vfx.attack.startFollow(my.sprite.player, 0, 0, false)
+            if(my.sprite.player.flipX){
+                my.vfx.attack.setParticleScale(this.ATTACK_SCALE,-this.ATTACK_SCALE);
+            } else {
+                my.vfx.attack.setParticleScale(-this.ATTACK_SCALE,-this.ATTACK_SCALE);
+            } 
+            my.vfx.attack.explode(1);
+            this.attackTimer = this.ATTACK_COOLDOWN
         }
     }
 }
