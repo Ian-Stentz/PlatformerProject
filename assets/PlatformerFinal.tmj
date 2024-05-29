@@ -219,6 +219,42 @@
                  "width":18,
                  "x":2376,
                  "y":342
+                }, 
+                {
+                 "gid":1,
+                 "height":18,
+                 "id":19,
+                 "name":"Ledge",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":18,
+                 "x":1404,
+                 "y":504
+                }, 
+                {
+                 "gid":1,
+                 "height":18,
+                 "id":20,
+                 "name":"Ledge",
+                 "rotation":0,
+                 "type":"",
+                 "visible":false,
+                 "width":18,
+                 "x":990,
+                 "y":504
+                }, 
+                {
+                 "gid":426,
+                 "height":24,
+                 "id":21,
+                 "name":"Robyte",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":24,
+                 "x":1188,
+                 "y":504
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -278,7 +314,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":19,
+ "nextobjectid":24,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",

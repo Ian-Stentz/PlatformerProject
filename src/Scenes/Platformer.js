@@ -41,7 +41,7 @@ class Platformer extends Phaser.Scene {
         this.tilesetF = this.map.addTilesetImage("Tileset_Farm", "TilesetFarm");
         this.tilesetI = this.map.addTilesetImage("Tileset_Industrial", "TilesetIndustrial");
         this.tilesetP = this.map.addTilesetImage("Tileset_Prompts", "TilesetPrompts");
-        //this.tilesetC = this.map.addTilesetImage("Tileset_Characters", "Tileset_Characters");
+        this.tilesetC = this.map.addTilesetImage("Tileset_Characters", "TilesetCharacters");
 
         this.tilesets = [this.tilesetB, this.tilesetF, this.tilesetI, this.tilesetP];
 
@@ -72,6 +72,15 @@ class Platformer extends Phaser.Scene {
             frame: 67
         })
 
+        this.ledges = this.map.createFromObjects("CharacterSpawns", {
+            name: "Ledge"
+        })
+
+        this.robytes = this.map.createFromObjects("CharacterSpawns", {
+            name: 'Robyte',
+            classType: Walker
+        })
+
         this.physics.world.enable(this.checkpoints, Phaser.Physics.Arcade.STATIC_BODY);
 
         this.checkpointGroup = this.add.group(this.checkpoints);
@@ -82,6 +91,18 @@ class Platformer extends Phaser.Scene {
         this.physics.world.enable(this.gems, Phaser.Physics.Arcade.STATIC_BODY);
 
         this.invisibleCollider = null;
+
+        this.physics.world.enable(this.robytes, Phaser.Physics.Arcade.DYNAMIC_BODY);
+
+        this.physics.world.enable(this.ledges, Phaser.Physics.Arcade.STATIC_BODY);
+
+        this.robytesGroup = this.add.group(this.robytes);
+        this.robytesGroup.playAnimation('Robyte_Walk');
+
+        this.enemies = this.add.group(this.robytes);
+        this.enemies.runChildUpdate = true;
+
+        this.walkers = this.add.group(this.robytes);
 
         // Make it collidable
         this.backgroundLayer.setCollisionByProperty({
@@ -105,6 +126,18 @@ class Platformer extends Phaser.Scene {
         this.physics.add.collider(my.sprite.player, this.backgroundLayer);
         this.physics.add.collider(my.sprite.player, this.foregroundLayer);
         this.physics.add.collider(my.sprite.player, this.popLayer);
+
+        this.physics.add.collider(this.enemies, this.backgroundLayer);
+        this.physics.add.collider(this.enemies, this.foregroundLayer);
+        this.physics.add.collider(this.enemies, this.popLayer);
+
+        this.physics.add.collider(this.ledges, this.walkers, (obj1, obj2) => {
+            obj2.bounce();
+        })
+
+        this.physics.add.overlap(my.sprite.player, this.enemies, (obj1, obj2) => {
+            this.die();
+        })
 
         this.physics.add.overlap(my.sprite.player, this.checkpointGroup, (obj1, obj2) => {
             this.sound.play("Checkpoint");
@@ -284,6 +317,7 @@ class Platformer extends Phaser.Scene {
         } else {
             if(this.invisibleCollider) {
                 this.invisibleCollider.destroy();
+                this.invisibleCollider = null;
             }
         }
 
@@ -325,9 +359,8 @@ class Platformer extends Phaser.Scene {
             this.invisibleCollider = this.physics.add.image(my.sprite.player.x, my.sprite.player.y, "Twirl").setScale(this.ATTACK_SCALE);
             this.invisibleCollider.setAlpha(0);
             this.invisibleCollider.setCircle(this.ATTACK_RADIUS*5, 0, 0);
-            this.physics.add.overlap(my.sprite.player, this.invisibleCollider, (obj1, obj2) => {
-                //this.die();
-                //obj2.destroy();
+            this.physics.add.overlap(this.invisibleCollider, this.enemies, (obj1, obj2) => {
+                obj2.die();
             })
         }
     }

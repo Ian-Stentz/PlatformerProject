@@ -14,6 +14,10 @@ class Load extends Phaser.Scene {
         this.load.image("TilesetFarm", "tilemap_farm_packed.png");      
         this.load.image("TilesetIndustrial", "tilemap_industrial_packed.png");   
         this.load.image("TilesetBackground","tilemap-backgrounds_packed.png");
+        this.load.spritesheet("TilesetCharacters", "tilemap-characters_packed.png", {
+            frameWidth: 24,
+            frameHeight: 24
+        });
         this.load.image("TilesetPrompts", "ButtonSheet.png");
         //this.load.image("Tileset_Characters", "tilemap-characters_packed.png");                            // Packed tilemap
         this.load.tilemapTiledJSON("platformer-final", "PlatformerFinal.tmj");   // Tilemap in JSON
@@ -24,7 +28,7 @@ class Load extends Phaser.Scene {
         this.load.spritesheet("tilemap_base", "tilemap_base_packed.png", {
             frameWidth: 18,
             frameHeight: 18
-        })
+        });
 
         this.load.image("Twirl", "Particles_Trans/twirl_01.png");
         
@@ -78,11 +82,25 @@ class Load extends Phaser.Scene {
             repeat: -1
         })
 
+        this.anims.create({
+            key: 'Robyte_Walk',
+            defaultTextureKey: "platformer_characters",
+            frames: [
+                { frame: "tile_0021.png", duration: 100},
+                { frame: "tile_0022.png", duration: 100}
+            ],
+            repeat: -1
+        });
+
          // ...and pass to the next Scene
          this.scene.start("platformerScene");
     }
 
     // Never get here since a new scene is started in create()
     update() {
+    }
+
+    bounce() {
+        
     }
 }
