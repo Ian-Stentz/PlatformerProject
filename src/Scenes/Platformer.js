@@ -17,7 +17,7 @@ class Platformer extends Phaser.Scene {
         this.CAMERA_SCALE = 2.0;
         this.PARTICLE_VELOCITY = 25;
         this.ATTACK_COOLDOWN = 0.3;
-        this.ATTACK_LENGTH = 250
+        this.ATTACK_DURATION = 250
         this.attackTimer = 0;
         this.ATTACK_SCALE = 0.2;
         this.ATTACK_RADIUS = 512/2 * this.ATTACK_SCALE;
@@ -81,6 +81,8 @@ class Platformer extends Phaser.Scene {
 
         this.physics.world.enable(this.gems, Phaser.Physics.Arcade.STATIC_BODY);
 
+        this.invisibleCollider = null;
+
         // Make it collidable
         this.backgroundLayer.setCollisionByProperty({
             collides: true
@@ -118,6 +120,10 @@ class Platformer extends Phaser.Scene {
             this.map.createLayer("GemGuidance", this.tilesetP, 0, 0).setScale(SCALE);
             obj2.destroy();
         })
+
+        for (let gem of this.gemGroup.getChildren()) {
+            gem.baseY = gem.y;
+        }
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -160,7 +166,7 @@ class Platformer extends Phaser.Scene {
                     return particle.angle + (particle.scaleX > 0 ? 12 : -12);
                 }
             },
-            lifespan: this.ATTACK_LENGTH,
+            lifespan: this.ATTACK_DURATION,
             frequency: -1,
             x: {
                 onUpdate: () => {
@@ -188,6 +194,11 @@ class Platformer extends Phaser.Scene {
 
     update(time, delta) {
         //this.cameras.main.setDeadzone(40, 40);
+
+        for (let gem of this.gemGroup.getChildren()) {
+            gem.y = gem.baseY + gem.displayHeight/8 * Math.sin(time/400);
+        }
+
         if(cursors.left.isDown && !this.controlSeized) {
             // TODO: have the player accelerate to the left
             if(my.sprite.player.body.blocked.down && my.sprite.player.body.velocity.x > 0) {
@@ -262,6 +273,18 @@ class Platformer extends Phaser.Scene {
 
         if (this.attackTimer > 0) {
             this.attackTimer -= delta / 1000
+        } 
+
+        if(this.attackTimer > this.ATTACK_COOLDOWN - this.ATTACK_DURATION / 1000) {
+            if(this.invisibleCollider) {
+                this.invisibleCollider.x = my.sprite.player.x;
+                this.invisibleCollider.y = my.sprite.player.y;
+                this.invisibleCollider.setVelocity(0);
+            }
+        } else {
+            if(this.invisibleCollider) {
+                this.invisibleCollider.destroy();
+            }
         }
 
         if(my.sprite.player.y > this.map.heightInPixels * SCALE - 18 * 3 * SCALE) {
@@ -295,7 +318,17 @@ class Platformer extends Phaser.Scene {
             } 
             my.vfx.attack.explode(1);
             this.sound.play("Attack");
-            this.attackTimer = this.ATTACK_COOLDOWN
+            this.attackTimer = this.ATTACK_COOLDOWN;
+            if(this.invisibleCollider) {
+                this.invisibleCollider.destroy();
+            }
+            this.invisibleCollider = this.physics.add.image(my.sprite.player.x, my.sprite.player.y, "Twirl").setScale(this.ATTACK_SCALE);
+            this.invisibleCollider.setAlpha(0);
+            this.invisibleCollider.setCircle(this.ATTACK_RADIUS*5, 0, 0);
+            this.physics.add.overlap(my.sprite.player, this.invisibleCollider, (obj1, obj2) => {
+                //this.die();
+                //obj2.destroy();
+            })
         }
     }
 

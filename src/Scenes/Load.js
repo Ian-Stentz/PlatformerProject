@@ -25,6 +25,8 @@ class Load extends Phaser.Scene {
             frameWidth: 18,
             frameHeight: 18
         })
+
+        this.load.image("Twirl", "Particles_Trans/twirl_01.png");
         
         this.load.audio("Jump", "Jump.mp3");
         this.load.audio("Steps", "miniman_footsteps.mp3");
