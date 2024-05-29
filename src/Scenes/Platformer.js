@@ -9,17 +9,17 @@ class Platformer extends Phaser.Scene {
 
     init() {
         // variables and settings
-        this.ACCELERATION = 600;
-        this.DRAG = 1200;    // DRAG < ACCELERATION = icy slide
-        this.physics.world.gravity.y = 1500;
-        this.JUMP_VELOCITY = -700;
-        this.TERMINAL_VELOCITY = 400;
-        this.CAMERA_SCALE = 1.0;
-        this.PARTICLE_VELOCITY = 50;
+        this.ACCELERATION = 300;
+        this.DRAG = 600;    // DRAG < ACCELERATION = icy slide
+        this.physics.world.gravity.y = 900;
+        this.JUMP_VELOCITY = -500;
+        this.TERMINAL_VELOCITY = 200;
+        this.CAMERA_SCALE = 2.0;
+        this.PARTICLE_VELOCITY = 25;
         this.ATTACK_COOLDOWN = 0.3;
         this.ATTACK_LENGTH = 250
         this.attackTimer = 0;
-        this.ATTACK_SCALE = 0.4;
+        this.ATTACK_SCALE = 0.2;
         this.ATTACK_RADIUS = 512/2 * this.ATTACK_SCALE;
         this.doubleJumpOn = false;
         this.doubleJumped = false;
@@ -40,6 +40,7 @@ class Platformer extends Phaser.Scene {
         this.tilesetB = this.map.addTilesetImage("Tileset_Base", "TilesetBase");
         this.tilesetF = this.map.addTilesetImage("Tileset_Farm", "TilesetFarm");
         this.tilesetI = this.map.addTilesetImage("Tileset_Industrial", "TilesetIndustrial");
+        this.tilesetP = this.map.addTilesetImage("Tileset_Prompts_Black", "TilesetPrompts");
         //this.tilesetC = this.map.addTilesetImage("Tileset_Characters", "Tileset_Characters");
 
         this.tilesets = [this.tilesetB, this.tilesetF, this.tilesetI];
@@ -59,6 +60,27 @@ class Platformer extends Phaser.Scene {
 
         this.animatedTiles.init(this.map);
 
+        this.checkpoints = this.map.createFromObjects("CharacterSpawns", {
+            name: "Checkpoint",
+            key: "tilemap_base",
+            frame: 111
+        })
+
+        this.gems = this.map.createFromObjects("CharacterSpawns", {
+            name: "Gem",
+            key: "tilemap_base",
+            frame: 67
+        })
+
+        this.physics.world.enable(this.checkpoints, Phaser.Physics.Arcade.STATIC_BODY);
+
+        this.checkpointGroup = this.add.group(this.checkpoints);
+        this.checkpointGroup.playAnimation('flag');
+
+        this.gemGroup = this.add.group(this.gems);
+
+        this.physics.world.enable(this.gems, Phaser.Physics.Arcade.STATIC_BODY);
+
         // Make it collidable
         this.backgroundLayer.setCollisionByProperty({
             collides: true
@@ -71,7 +93,9 @@ class Platformer extends Phaser.Scene {
         });
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(this.playerSpawn.x*SCALE, this.playerSpawn.y*SCALE, "platformer_characters", "tile_0000.png").setScale(SCALE);
+        my.sprite.player = this.physics.add.sprite(0, 0, "platformer_characters", "tile_0000.png").setScale(SCALE);
+        my.sprite.player.x = this.checkpoint.x*SCALE+my.sprite.player.displayWidth/2;
+        my.sprite.player.y = this.checkpoint.y*SCALE-my.sprite.player.displayHeight/2;
         my.sprite.player.setFlip(true, false);
         my.sprite.player.setCollideWorldBounds(true);
 
@@ -79,6 +103,21 @@ class Platformer extends Phaser.Scene {
         this.physics.add.collider(my.sprite.player, this.backgroundLayer);
         this.physics.add.collider(my.sprite.player, this.foregroundLayer);
         this.physics.add.collider(my.sprite.player, this.popLayer);
+
+        this.physics.add.overlap(my.sprite.player, this.checkpointGroup, (obj1, obj2) => {
+            this.sound.play("Checkpoint");
+            this.checkpoint = obj2;
+            obj2.checkCollision = false;
+        }, (obj1, obj2) => {
+            return this.checkpoint != obj2
+        })
+
+        this.physics.add.overlap(my.sprite.player, this.gemGroup, (obj1, obj2) => {
+            this.sound.play("Gem");
+            this.enableDJ();
+            this.map.createLayer("GemGuidance", this.tilesetP, 0, 0).setScale(SCALE);
+            obj2.destroy();
+        })
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
@@ -267,8 +306,8 @@ class Platformer extends Phaser.Scene {
     die() {
         this.sound.play("Death");
         my.sprite.player.body.setVelocity(0);
-        my.sprite.player.x = this.checkpoint.x*SCALE;
-        my.sprite.player.y = this.checkpoint.y*SCALE;
+        my.sprite.player.x = this.checkpoint.x*SCALE+my.sprite.player.displayWidth/2;
+        my.sprite.player.y = this.checkpoint.y*SCALE-my.sprite.player.displayHeight/2;
     }
 
     levelEnd() {

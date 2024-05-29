@@ -14,11 +14,17 @@ class Load extends Phaser.Scene {
         this.load.image("TilesetFarm", "tilemap_farm_packed.png");      
         this.load.image("TilesetIndustrial", "tilemap_industrial_packed.png");   
         this.load.image("TilesetBackground","tilemap-backgrounds_packed.png");
+        this.load.image("TilesetPrompts", "tilemap_black_packed.png");
         //this.load.image("Tileset_Characters", "tilemap-characters_packed.png");                            // Packed tilemap
         this.load.tilemapTiledJSON("platformer-final", "PlatformerFinal.tmj");   // Tilemap in JSON
         this.load.tilemapTiledJSON("platformer-background", "PlatformerBackground.tmj");
         
         this.load.multiatlas("kenny-particles", "kenny-particles.json");
+
+        this.load.spritesheet("tilemap_base", "tilemap_base_packed.png", {
+            frameWidth: 18,
+            frameHeight: 18
+        })
         
         this.load.audio("Jump", "Jump.mp3");
         this.load.audio("Steps", "miniman_footsteps.mp3");
@@ -26,6 +32,8 @@ class Load extends Phaser.Scene {
         this.load.audio("Attack", "miniman_slash.mp3");
         this.load.audio("Death", "impactPlate_light_001.ogg")
         this.load.audio("Win", "jingles_HIT01.ogg")
+        this.load.audio("Checkpoint", "jingles_HIT07.ogg")
+        this.load.audio("Gem", "jingles_HIT16.ogg")
     }
 
     create() {
@@ -58,6 +66,15 @@ class Load extends Phaser.Scene {
                 { frame: "tile_0001.png" }
             ],
         });
+
+        this.anims.create({
+            key: 'flag',
+            frames: [
+                {key: "tilemap_base", frame: 111, duration: 150},
+                {key: "tilemap_base", frame: 112, duration: 150}
+            ],
+            repeat: -1
+        })
 
          // ...and pass to the next Scene
          this.scene.start("platformerScene");
