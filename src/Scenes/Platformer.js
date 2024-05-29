@@ -40,10 +40,10 @@ class Platformer extends Phaser.Scene {
         this.tilesetB = this.map.addTilesetImage("Tileset_Base", "TilesetBase");
         this.tilesetF = this.map.addTilesetImage("Tileset_Farm", "TilesetFarm");
         this.tilesetI = this.map.addTilesetImage("Tileset_Industrial", "TilesetIndustrial");
-        this.tilesetP = this.map.addTilesetImage("Tileset_Prompts_Black", "TilesetPrompts");
+        this.tilesetP = this.map.addTilesetImage("Tileset_Prompts", "TilesetPrompts");
         //this.tilesetC = this.map.addTilesetImage("Tileset_Characters", "Tileset_Characters");
 
-        this.tilesets = [this.tilesetB, this.tilesetF, this.tilesetI];
+        this.tilesets = [this.tilesetB, this.tilesetF, this.tilesetI, this.tilesetP];
 
         this.map2 = this.add.tilemap("platformer-background", 24, 24, 135, 30);
         this.tilesetBack = this.map2.addTilesetImage("Tileset_Background", "TilesetBackground");
