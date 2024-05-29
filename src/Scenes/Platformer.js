@@ -32,15 +32,15 @@ class Platformer extends Phaser.Scene {
 
         this.map2 = this.add.tilemap("platformer-background", 24, 24, 135, 30);
         this.tilesetBack = this.map2.addTilesetImage("Tileset_Background", "TilesetBackground");
-        this.parallaxLayer = this.map2.createLayer("Parallax", this.tilesetBack, 0, 0).setScale(2.0);
+        this.parallaxLayer = this.map2.createLayer("Parallax", this.tilesetBack, 0, 0).setScale(SCALE);
         this.parallaxLayer.setScrollFactor(0.25);
 
         // Create a layer
-        this.backgroundLayer = this.map.createLayer("Background", this.tilesets, 0, 0).setScale(2.0);
-        this.foregroundLayer = this.map.createLayer("Foreground", this.tilesets, 0, 0).setScale(2.0);
-        this.popLayer = this.map.createLayer("Popground", this.tilesets, 0, 0).setScale(2.0);
+        this.backgroundLayer = this.map.createLayer("Background", this.tilesets, 0, 0).setScale(SCALE);
+        this.foregroundLayer = this.map.createLayer("Foreground", this.tilesets, 0, 0).setScale(SCALE);
+        this.popLayer = this.map.createLayer("Popground", this.tilesets, 0, 0).setScale(SCALE);
 
-        
+        this.playerSpawn = this.map.findObject("CharacterSpawns", obj => obj.name === 'PlayerSpawn');
 
         // Make it collidable
         this.backgroundLayer.setCollisionByProperty({
@@ -54,7 +54,8 @@ class Platformer extends Phaser.Scene {
         });
 
         // set up player avatar
-        my.sprite.player = this.physics.add.sprite(game.config.width/4, game.config.height/2, "platformer_characters", "tile_0000.png").setScale(SCALE)
+        my.sprite.player = this.physics.add.sprite(this.playerSpawn.x*SCALE, this.playerSpawn.y*SCALE, "platformer_characters", "tile_0000.png").setScale(SCALE);
+        my.sprite.player.setFlip(true, false);
         my.sprite.player.setCollideWorldBounds(true);
 
         // Enable collision handling

@@ -176,7 +176,7 @@
                  "gid":68,
                  "height":18,
                  "id":14,
-                 "name":"GEM",
+                 "name":"Gem",
                  "rotation":0,
                  "type":"",
                  "visible":true,
@@ -195,6 +195,18 @@
                  "width":18,
                  "x":1800,
                  "y":612
+                }, 
+                {
+                 "gid":2147484053,
+                 "height":24,
+                 "id":17,
+                 "name":"PlayerSpawn",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":24,
+                 "x":80,
+                 "y":610
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -203,7 +215,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":17,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.2",
@@ -1330,6 +1342,19 @@
                         }]
                 }],
          "tilewidth":18
+        }, 
+        {
+         "columns":9,
+         "firstgid":405,
+         "image":"tilemap-characters_packed.png",
+         "imageheight":72,
+         "imagewidth":216,
+         "margin":0,
+         "name":"Tileset_Characters",
+         "spacing":0,
+         "tilecount":27,
+         "tileheight":24,
+         "tilewidth":24
         }],
  "tilewidth":18,
  "type":"map",
