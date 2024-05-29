@@ -17,7 +17,7 @@ class Platformer extends Phaser.Scene {
         this.CAMERA_SCALE = 2.0;
         this.PARTICLE_VELOCITY = 25;
         this.ATTACK_COOLDOWN = 0.3;
-        this.ATTACK_DURATION = 250
+        this.ATTACK_DURATION = 190
         this.attackTimer = 0;
         this.ATTACK_SCALE = 0.2;
         this.ATTACK_RADIUS = 512/2 * this.ATTACK_SCALE;
@@ -174,20 +174,32 @@ class Platformer extends Phaser.Scene {
         my.vfx.walking = this.add.particles(0, 0, "kenny-particles", {
             frame: ['smoke_03.png', 'smoke_09.png'],
             // TODO: Try: add random: true
-            scale: {start: .075, end: 0.03, random: true},
+            scale: {start: .05, end: 0.01, random: true},
             // TODO: Try: maxAliveParticles: 8,
             maxAliveParticles: 14,
             lifespan: 350,
+            tint: 0xbaa484,
             // TODO: Try: gravityY: -400,
             alpha: {start: 0.8, end: 0.1}, 
-            gravityY: -400
+            gravityY: 250
         });
         my.vfx.jump = this.add.particles(0, 0, "kenny-particles", {
             frame: ['smoke_02.png', 'smoke_03.png'],
-            scale: {start: 0.04, end: 0.04},
-            lifespan: 200,
+            scale: {start: 0.035, end: 0.005},
+            lifespan: 400,
             alpha: {start: 1, end: 0.5},
-            gravityY: -300
+            gravityY: 800,
+            tint: 0xbaa484,
+            speedX: {
+                onEmit: (particle) => {
+                    return (Math.random() * 2 - 1) * 100
+                }
+            },
+            speedY: {
+                onEmit: (particle) => {
+                    return Math.random()* -200
+                }
+            },
         })
         my.vfx.attack = this.add.particles(0, 0, "kenny-particles", {
             frame: ['twirl_01.png', 'twirl_02.png', 'twirl_03.png'],
@@ -219,9 +231,12 @@ class Platformer extends Phaser.Scene {
         })
 
         my.vfx.walking.stop();
+        my.vfx.jump.stop();
+        my.vfx.jump.startFollow(my.sprite.player, 0, my.sprite.player.displayHeight/2-5, false);
+        my.vfx.attack.stop();
 
         my.sfx.walking = this.sound.add('Steps', {loop: true});
-        my.sfx.music = this.sound.add('Music', {volume: 0.85, loop: true});
+        my.sfx.music = this.sound.add('Music', {volume: 0.45, loop: true});
         my.sfx.music.play();
     }
 
@@ -243,7 +258,7 @@ class Platformer extends Phaser.Scene {
 
             my.vfx.walking.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
 
-            my.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
+            my.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, -100);
 
             if (my.sprite.player.body.blocked.down) {
                 my.vfx.walking.start();
@@ -261,7 +276,7 @@ class Platformer extends Phaser.Scene {
             my.sprite.player.anims.play('walk', true);
 
             my.vfx.walking.startFollow(my.sprite.player, -(my.sprite.player.displayWidth/2-10), my.sprite.player.displayHeight/2-5, false);
-            my.vfx.walking.setParticleSpeed(-this.PARTICLE_VELOCITY, 0);
+            my.vfx.walking.setParticleSpeed(-this.PARTICLE_VELOCITY, -100);
 
             // Only play smoke effect and play walking sound if touching the ground
             if (my.sprite.player.body.blocked.down) {
@@ -286,7 +301,8 @@ class Platformer extends Phaser.Scene {
             this.setAudio(my.sfx.walking, false);
             if(this.doubleJumpOn && !this.doubleJumped && Phaser.Input.Keyboard.JustDown(cursors.up) && !this.controlSeized) {
                 my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
-                this.sound.play("Jump", {volume: 0.6});
+                this.sound.play("Jump", {volume: 0.9});
+                my.vfx.jump.explode(8);
                 this.doubleJumped = true;
             }
             this.cameras.main.setFollowOffset(0,my.sprite.player.y-this.targetY);
@@ -301,7 +317,8 @@ class Platformer extends Phaser.Scene {
         }
         if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up) && !this.controlSeized) {
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
-            this.sound.play("Jump", {volume: 0.6});
+            this.sound.play("Jump", {volume: 0.9});           
+            my.vfx.jump.explode(20);
         }
 
         if (this.attackTimer > 0) {
@@ -343,7 +360,7 @@ class Platformer extends Phaser.Scene {
     }
 
     attack() {
-        if(this.attackTimer <= 0) {
+        if(this.attackTimer <= 0 && !this.controlSeized) {
             my.vfx.attack.startFollow(my.sprite.player, 0, 0, false)
             if(my.sprite.player.flipX){
                 my.vfx.attack.setParticleScale(this.ATTACK_SCALE,-this.ATTACK_SCALE);

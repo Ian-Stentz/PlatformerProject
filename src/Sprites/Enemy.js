@@ -11,7 +11,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
     }   
 
     die() {
-       console.log("euch no!");
+       console.log("DEATH!");
        this.destroy();
     }
 }
