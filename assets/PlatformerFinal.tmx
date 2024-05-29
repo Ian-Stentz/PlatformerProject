@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="180" height="40" tilewidth="18" tileheight="18" infinite="0" nextlayerid="7" nextobjectid="24">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="180" height="40" tilewidth="18" tileheight="18" infinite="0" nextlayerid="7" nextobjectid="33">
  <editorsettings>
   <export target="PlatformerFinal.tmj" format="json"/>
  </editorsettings>
@@ -865,6 +865,15 @@
   <object id="19" name="Ledge" gid="1" x="1404" y="504" width="18" height="18" visible="0"/>
   <object id="20" name="Ledge" gid="1" x="990" y="504" width="18" height="18" visible="0"/>
   <object id="21" name="Robyte" gid="426" x="1188" y="504" width="24" height="24"/>
+  <object id="24" name="Robyte" gid="426" x="1530" y="288" width="24" height="24"/>
+  <object id="25" name="Robyte" gid="426" x="1890" y="288" width="24" height="24"/>
+  <object id="26" name="Ledge" gid="1" x="1692" y="288" width="18" height="18" visible="0"/>
+  <object id="27" name="Ledge" gid="1" x="1314.75" y="288.083" width="18" height="18" visible="0"/>
+  <object id="28" name="Ledge" gid="1" x="1782" y="288" width="18" height="18" visible="0"/>
+  <object id="29" name="Ledge" gid="1" x="1998" y="288" width="18" height="18" visible="0"/>
+  <object id="30" name="Ledge" gid="1" x="2052" y="198" width="18" height="18" visible="0"/>
+  <object id="31" name="Ledge" gid="1" x="2736" y="198" width="18" height="18" visible="0"/>
+  <object id="32" name="Robyte" gid="426" x="2502" y="198" width="24" height="24"/>
  </objectgroup>
  <layer id="6" name="GemGuidance" width="180" height="40">
   <data encoding="csv">

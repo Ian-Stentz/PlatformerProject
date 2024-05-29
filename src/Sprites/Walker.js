@@ -11,7 +11,6 @@ class Walker extends Enemy {
 
     update(time, delta) {
         this.x += this.velocityX * delta / 1000;
-        console.log("beep");
     }   
 
     bounce(time, delta) {
