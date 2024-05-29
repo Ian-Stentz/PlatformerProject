@@ -19,6 +19,8 @@ class Load extends Phaser.Scene {
         this.load.tilemapTiledJSON("platformer-background", "PlatformerBackground.tmj");
         
         this.load.multiatlas("kenny-particles", "kenny-particles.json");
+        
+        this.load.audio("Jump", "Jump.mp3");
     }
 
     create() {

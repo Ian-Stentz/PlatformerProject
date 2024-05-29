@@ -80,7 +80,7 @@ class Platformer extends Phaser.Scene {
         my.vfx.walking = this.add.particles(0, 0, "kenny-particles", {
             frame: ['smoke_03.png', 'smoke_09.png'],
             // TODO: Try: add random: true
-            scale: {start: .075, end: 0.03},
+            scale: {start: .075, end: 0.03, random: true},
             // TODO: Try: maxAliveParticles: 8,
             maxAliveParticles: 14,
             lifespan: 350,
@@ -88,6 +88,13 @@ class Platformer extends Phaser.Scene {
             alpha: {start: 0.8, end: 0.1}, 
             gravityY: -400
         });
+        my.vfx.jump = this.add.particles(0, 0, "kenny-particles", {
+            frame: ['smoke_02.png', 'smoke_03.png'],
+            scale: {start: 0.06, end: 0.04},
+            lifespan: 200,
+            alpha: {start: 1, end: 0.5},
+            gravityY: -300
+        })
 
         my.vfx.walking.stop();
     }
@@ -145,6 +152,7 @@ class Platformer extends Phaser.Scene {
         if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             // TODO: set a Y velocity to have the player "jump" upwards (negative Y direction)
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
+            this.sound.play("Jump");
         }
     }
 }
