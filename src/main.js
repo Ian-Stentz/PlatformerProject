@@ -15,14 +15,14 @@
 // game config
 let config = {
     parent: 'phaser-game',
-    type: Phaser.CANVAS,
+    type: Phaser.WEBGL,
     render: {
         pixelArt: true  // prevent pixel art from getting blurred when scaled
     },
     physics: {
         default: 'arcade',
         arcade: {
-            debug: true,
+            debug: false,
             gravity: {
                 x: 0,
                 y: 0

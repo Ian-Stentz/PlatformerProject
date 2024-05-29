@@ -15,22 +15,28 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 368.5,
-                "y": 291.5
+                "x": 363.5,
+                "y": 421.5
             }
         },
         "PlatformerBackground.tmx#Tileset_Background": {
             "scaleInDock": 1
         },
         "PlatformerFinal.tmx": {
+            "expandedObjectLayers": [
+                5
+            ],
             "scale": 1,
-            "selectedLayer": 1,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 1164.5,
-                "y": 468.5
+                "x": 426.5,
+                "y": 536.5
             }
         },
         "PlatformerFinal.tmx#Tileset_Base": {
+            "scaleInDock": 1
+        },
+        "PlatformerFinal.tmx#Tileset_Characters": {
             "scaleInDock": 1
         },
         "PlatformerFinal.tmx#Tileset_Farm": {
@@ -40,6 +46,7 @@
             "scaleInDock": 1
         }
     },
+    "frame.defaultDuration": 450,
     "last.exportedFilePath": "C:/Users/ianst/Desktop/Homework/Game Dev Experience/PlatformerProject/assets",
     "last.imagePath": "C:/Users/ianst/Desktop/Homework/Game Dev Experience/PlatformerProject/assets",
     "map.height": 30,

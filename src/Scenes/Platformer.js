@@ -3,6 +3,10 @@ class Platformer extends Phaser.Scene {
         super("platformerScene");
     }
 
+    preload() {
+        this.load.scenePlugin('AnimatedTiles', './lib/AnimatedTiles.js', 'animatedTiles', 'animatedTiles');
+    }
+
     init() {
         // variables and settings
         this.ACCELERATION = 600;
@@ -47,6 +51,8 @@ class Platformer extends Phaser.Scene {
 
         this.playerSpawn = this.map.findObject("CharacterSpawns", obj => obj.name === 'PlayerSpawn');
 
+        this.animatedTiles.init(this.map);
+
         // Make it collidable
         this.backgroundLayer.setCollisionByProperty({
             collides: true
@@ -70,12 +76,6 @@ class Platformer extends Phaser.Scene {
 
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
-
-        // debug key listener (assigned to D key)
-        this.input.keyboard.on('keydown-D', () => {
-            this.physics.world.drawDebug = this.physics.world.drawDebug ? false : true
-            this.physics.world.debugGraphic.clear()
-        }, this);
 
         this.input.keyboard.on('keydown-SPACE', () => {this.attack()}, this);
 
@@ -123,6 +123,11 @@ class Platformer extends Phaser.Scene {
             y: {
                 onUpdate: () => {
                     return my.sprite.player.y     
+                }
+            },
+            tint: {
+                onEmit: () => {
+                    return 0xafafff;
                 }
             }
         })
@@ -216,6 +221,7 @@ class Platformer extends Phaser.Scene {
                 my.vfx.attack.setParticleScale(-this.ATTACK_SCALE,-this.ATTACK_SCALE);
             } 
             my.vfx.attack.explode(1);
+            this.sound.play("Attack");
             this.attackTimer = this.ATTACK_COOLDOWN
         }
     }

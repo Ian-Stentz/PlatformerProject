@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="180" height="40" tilewidth="18" tileheight="18" infinite="0" nextlayerid="6" nextobjectid="18">
  <editorsettings>
-  <export target="PlatformerFinal.tmj" format="json"/>
+  <export target="PlatformerFinal1.tmj" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="Tileset_Base" tilewidth="18" tileheight="18" tilecount="180" columns="20">
   <image source="tilemap_base_packed.png" width="360" height="162"/>
@@ -49,6 +49,16 @@
    <properties>
     <property name="killzone" type="bool" value="true"/>
    </properties>
+   <animation>
+    <frame tileid="33" duration="350"/>
+    <frame tileid="53" duration="350"/>
+   </animation>
+  </tile>
+  <tile id="34">
+   <animation>
+    <frame tileid="34" duration="350"/>
+    <frame tileid="35" duration="350"/>
+   </animation>
   </tile>
   <tile id="40">
    <properties>
@@ -95,6 +105,12 @@
     <property name="killzone" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="54">
+   <animation>
+    <frame tileid="54" duration="350"/>
+    <frame tileid="55" duration="350"/>
+   </animation>
+  </tile>
   <tile id="60">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -119,6 +135,12 @@
    <properties>
     <property name="killzone" type="bool" value="true"/>
    </properties>
+  </tile>
+  <tile id="74">
+   <animation>
+    <frame tileid="74" duration="350"/>
+    <frame tileid="75" duration="350"/>
+   </animation>
   </tile>
   <tile id="80">
    <properties>
@@ -390,6 +412,16 @@
    <properties>
     <property name="killzone" type="bool" value="true"/>
    </properties>
+   <animation>
+    <frame tileid="13" duration="350"/>
+    <frame tileid="29" duration="350"/>
+   </animation>
+  </tile>
+  <tile id="14">
+   <animation>
+    <frame tileid="14" duration="350"/>
+    <frame tileid="15" duration="350"/>
+   </animation>
   </tile>
   <tile id="16">
    <properties>
@@ -436,6 +468,12 @@
     <property name="killzone" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="30">
+   <animation>
+    <frame tileid="30" duration="350"/>
+    <frame tileid="31" duration="350"/>
+   </animation>
+  </tile>
   <tile id="32">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -470,6 +508,12 @@
    <properties>
     <property name="killzone" type="bool" value="true"/>
    </properties>
+  </tile>
+  <tile id="46">
+   <animation>
+    <frame tileid="46" duration="350"/>
+    <frame tileid="47" duration="350"/>
+   </animation>
   </tile>
   <tile id="48">
    <properties>
@@ -521,6 +565,12 @@
     <property name="collides" type="bool" value="true"/>
    </properties>
   </tile>
+  <tile id="78">
+   <animation>
+    <frame tileid="78" duration="350"/>
+    <frame tileid="79" duration="350"/>
+   </animation>
+  </tile>
   <tile id="87">
    <properties>
     <property name="collides" type="bool" value="true"/>
@@ -560,6 +610,10 @@
    <properties>
     <property name="killzone" type="bool" value="true"/>
    </properties>
+   <animation>
+    <frame tileid="94" duration="350"/>
+    <frame tileid="95" duration="350"/>
+   </animation>
   </tile>
   <tile id="95">
    <properties>
@@ -751,6 +805,6 @@
   <object id="2" name="Checkpoint" gid="112" x="900" y="576" width="18" height="18"/>
   <object id="14" name="Gem" gid="68" x="2484" y="305" width="18" height="18"/>
   <object id="15" name="Door" gid="321" x="1800" y="612" width="18" height="18"/>
-  <object id="17" name="PlayerSpawn" gid="2147484053" x="80" y="610" width="24" height="24"/>
+  <object id="17" name="PlayerSpawn" gid="2147484053" x="80.5" y="618" width="24" height="24"/>
  </objectgroup>
 </map>
