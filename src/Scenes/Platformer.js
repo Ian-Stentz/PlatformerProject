@@ -47,8 +47,8 @@ class Platformer extends Phaser.Scene {
 
         this.map2 = this.add.tilemap("platformer-background", 24, 24, 135, 30);
         this.tilesetBack = this.map2.addTilesetImage("Tileset_Background", "TilesetBackground");
-        this.parallaxLayer = this.map2.createLayer("Parallax", this.tilesetBack, 0, 0).setScale(SCALE);
-        this.parallaxLayer.setScrollFactor(0.25);
+        this.parallaxLayer = this.map2.createLayer("Parallax", this.tilesetBack, 0, 0).setScale(1.5);
+        this.parallaxLayer.setScrollFactor(0.375);
 
         // Create a layer
         this.backgroundLayer = this.map.createLayer("Background", this.tilesets, 0, 0).setScale(SCALE);
@@ -122,7 +122,7 @@ class Platformer extends Phaser.Scene {
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
-        this.input.keyboard.on('keydown-D', () => {this.enableDJ()}, this);
+        //this.input.keyboard.on('keydown-D', () => {this.enableDJ()}, this);
 
         this.input.keyboard.on('keydown-SPACE', () => {this.attack()}, this);
 
