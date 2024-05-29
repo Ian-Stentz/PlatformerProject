@@ -21,6 +21,8 @@ class Load extends Phaser.Scene {
         this.load.multiatlas("kenny-particles", "kenny-particles.json");
         
         this.load.audio("Jump", "Jump.mp3");
+        this.load.audio("Steps", "miniman_footsteps.mp3");
+        this.load.audio("Music", "miniman_mx.mp3");
     }
 
     create() {

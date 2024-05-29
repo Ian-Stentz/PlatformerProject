@@ -97,6 +97,10 @@ class Platformer extends Phaser.Scene {
         })
 
         my.vfx.walking.stop();
+
+        my.sfx.walking = this.sound.add('Steps', {loop: true});
+        my.sfx.music = this.sound.add('Music', {volume: 0.85, loop: true});
+        my.sfx.music.play();
     }
 
     update() {
@@ -115,6 +119,7 @@ class Platformer extends Phaser.Scene {
 
             if (my.sprite.player.body.blocked.down) {
                 my.vfx.walking.start();
+                this.setAudio(my.sfx.walking, true);
             } else {
                 my.vfx.walking.stop();
             }
@@ -130,9 +135,10 @@ class Platformer extends Phaser.Scene {
             my.vfx.walking.startFollow(my.sprite.player, -(my.sprite.player.displayWidth/2-10), my.sprite.player.displayHeight/2-5, false);
             my.vfx.walking.setParticleSpeed(-this.PARTICLE_VELOCITY, 0);
 
-            // Only play smoke effect if touching the ground
+            // Only play smoke effect and play walking sound if touching the ground
             if (my.sprite.player.body.blocked.down) {
                 my.vfx.walking.start();
+                this.setAudio(my.sfx.walking, true);
             } else {
                 my.vfx.walking.stop();
             }
@@ -142,17 +148,27 @@ class Platformer extends Phaser.Scene {
             my.sprite.player.body.setDragX(this.DRAG);
             my.sprite.player.anims.play('idle');
             my.vfx.walking.stop();
+            this.setAudio(my.sfx.walking, false);
         }
 
         // player jump
         // note that we need body.blocked rather than body.touching b/c the former applies to tilemap tiles and the latter to the "ground"
         if(!my.sprite.player.body.blocked.down) {
             my.sprite.player.anims.play('jump');
+            this.setAudio(my.sfx.walking, false);
         }
         if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
             // TODO: set a Y velocity to have the player "jump" upwards (negative Y direction)
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
-            this.sound.play("Jump");
+            this.sound.play("Jump", {volume: 0.6});
+        }
+    }
+
+    setAudio(audio, newState) {
+        if(!audio.isPlaying && newState) {
+            audio.play();
+        } else if(audio.isPlaying && !newState) {
+            audio.stop();
         }
     }
 }
