@@ -11,6 +11,7 @@ class Platformer extends Phaser.Scene {
         this.JUMP_VELOCITY = -700;
         this.TERMINAL_VELOCITY = 400;
         this.SCALE = 1.0;
+        this.PARTICLE_VELOCITY = 50;
     }
 
     create() {
@@ -19,7 +20,6 @@ class Platformer extends Phaser.Scene {
         // *180 x 40
         this.map = this.add.tilemap("platformer-final", 18, 18, 180, 40);
         this.physics.world.setBounds(0,0, 180*18*SCALE, 40*18*SCALE);
-        console.log(this.map);
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
         // Second parameter: key for the tilesheet (from this.load.image in Load.js)
@@ -37,7 +37,6 @@ class Platformer extends Phaser.Scene {
 
         // Create a layer
         this.backgroundLayer = this.map.createLayer("Background", this.tilesets, 0, 0).setScale(2.0);
-        console.log(this.backgroundLayer);
         this.foregroundLayer = this.map.createLayer("Foreground", this.tilesets, 0, 0).setScale(2.0);
         this.popLayer = this.map.createLayer("Popground", this.tilesets, 0, 0).setScale(2.0);
 
@@ -78,6 +77,19 @@ class Platformer extends Phaser.Scene {
         this.cameras.main.setZoom(this.SCALE);
         my.sprite.player.setMaxVelocity(this.TERMINAL_VELOCITY, this.TERMINAL_VELOCITY * 2);
 
+        my.vfx.walking = this.add.particles(0, 0, "kenny-particles", {
+            frame: ['smoke_03.png', 'smoke_09.png'],
+            // TODO: Try: add random: true
+            scale: {start: .075, end: 0.03},
+            // TODO: Try: maxAliveParticles: 8,
+            maxAliveParticles: 14,
+            lifespan: 350,
+            // TODO: Try: gravityY: -400,
+            alpha: {start: 0.8, end: 0.1}, 
+            gravityY: -400
+        });
+
+        my.vfx.walking.stop();
     }
 
     update() {
@@ -90,6 +102,15 @@ class Platformer extends Phaser.Scene {
             my.sprite.player.resetFlip();
             my.sprite.player.anims.play('walk', true);
 
+            my.vfx.walking.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
+
+            my.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
+
+            if (my.sprite.player.body.blocked.down) {
+                my.vfx.walking.start();
+            } else {
+                my.vfx.walking.stop();
+            }
         } else if(cursors.right.isDown) {
             // TODO: have the player accelerate to the right
             if(my.sprite.player.body.blocked.down && my.sprite.player.body.velocity.x < 0) {
@@ -99,11 +120,21 @@ class Platformer extends Phaser.Scene {
             my.sprite.player.setFlip(true, false);
             my.sprite.player.anims.play('walk', true);
 
+            my.vfx.walking.startFollow(my.sprite.player, -(my.sprite.player.displayWidth/2-10), my.sprite.player.displayHeight/2-5, false);
+            my.vfx.walking.setParticleSpeed(-this.PARTICLE_VELOCITY, 0);
+
+            // Only play smoke effect if touching the ground
+            if (my.sprite.player.body.blocked.down) {
+                my.vfx.walking.start();
+            } else {
+                my.vfx.walking.stop();
+            }
         } else {
             // TODO: set acceleration to 0 and have DRAG take over
             my.sprite.player.body.setAccelerationX(0);
             my.sprite.player.body.setDragX(this.DRAG);
             my.sprite.player.anims.play('idle');
+            my.vfx.walking.stop();
         }
 
         // player jump
