@@ -21,6 +21,11 @@ class Platformer extends Phaser.Scene {
         this.attackTimer = 0;
         this.ATTACK_SCALE = 0.4;
         this.ATTACK_RADIUS = 512/2 * this.ATTACK_SCALE;
+        this.doubleJumpOn = false;
+        this.doubleJumped = false;
+        this.targetY = 0;
+        this.controlSeized = false;
+        this.lock = false;
     }
 
     create() {
@@ -50,6 +55,7 @@ class Platformer extends Phaser.Scene {
         this.popLayer = this.map.createLayer("Popground", this.tilesets, 0, 0).setScale(SCALE);
 
         this.playerSpawn = this.map.findObject("CharacterSpawns", obj => obj.name === 'PlayerSpawn');
+        this.checkpoint = this.playerSpawn;
 
         this.animatedTiles.init(this.map);
 
@@ -77,11 +83,13 @@ class Platformer extends Phaser.Scene {
         // set up Phaser-provided cursor key input
         cursors = this.input.keyboard.createCursorKeys();
 
+        this.input.keyboard.on('keydown-D', () => {this.enableDJ()}, this);
+
         this.input.keyboard.on('keydown-SPACE', () => {this.attack()}, this);
 
         this.cameras.main.setBounds(0, 0, this.map.widthInPixels*SCALE, this.map.heightInPixels*SCALE);
-        this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25);
-        this.cameras.main.setDeadzone(0.25, 0.25);
+        this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.1);
+        this.cameras.main.setDeadzone(40, 40);
         this.cameras.main.setZoom(this.CAMERA_SCALE);
         my.sprite.player.setMaxVelocity(this.TERMINAL_VELOCITY, this.TERMINAL_VELOCITY * 2);
 
@@ -140,7 +148,8 @@ class Platformer extends Phaser.Scene {
     }
 
     update(time, delta) {
-        if(cursors.left.isDown) {
+        //this.cameras.main.setDeadzone(40, 40);
+        if(cursors.left.isDown && !this.controlSeized) {
             // TODO: have the player accelerate to the left
             if(my.sprite.player.body.blocked.down && my.sprite.player.body.velocity.x > 0) {
                 my.sprite.player.body.setVelocityX(my.sprite.player.body.velocity.x / 2);
@@ -159,7 +168,7 @@ class Platformer extends Phaser.Scene {
             } else {
                 my.vfx.walking.stop();
             }
-        } else if(cursors.right.isDown) {
+        } else if(cursors.right.isDown || this.controlSeized) {
             // TODO: have the player accelerate to the right
             if(my.sprite.player.body.blocked.down && my.sprite.player.body.velocity.x < 0) {
                 my.sprite.player.body.setVelocityX(my.sprite.player.body.velocity.x / 2);
@@ -192,15 +201,40 @@ class Platformer extends Phaser.Scene {
         if(!my.sprite.player.body.blocked.down) {
             my.sprite.player.anims.play('jump');
             this.setAudio(my.sfx.walking, false);
+            if(this.doubleJumpOn && !this.doubleJumped && Phaser.Input.Keyboard.JustDown(cursors.up) && !this.controlSeized) {
+                my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
+                this.sound.play("Jump", {volume: 0.6});
+                this.doubleJumped = true;
+            }
+            this.cameras.main.setFollowOffset(0,my.sprite.player.y-this.targetY);
+        } else {
+            if(this.doubleJumped) {
+                this.doubleJumped = false;
+            }
+            if(this.targetY != my.sprite.player.y) {
+                this.cameras.main.setFollowOffset(0,0);
+                this.targetY = my.sprite.player.y;
+            }
         }
-        if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up)) {
-            // TODO: set a Y velocity to have the player "jump" upwards (negative Y direction)
+        if(my.sprite.player.body.blocked.down && Phaser.Input.Keyboard.JustDown(cursors.up) && !this.controlSeized) {
             my.sprite.player.body.setVelocityY(this.JUMP_VELOCITY);
             this.sound.play("Jump", {volume: 0.6});
         }
 
         if (this.attackTimer > 0) {
             this.attackTimer -= delta / 1000
+        }
+
+        if(my.sprite.player.y > this.map.heightInPixels * SCALE - 18 * 3 * SCALE) {
+            this.die();
+        }
+        if(my.sprite.player.x > this.map.widthInPixels * SCALE - 18 * 2 * SCALE) {
+            this.levelEnd();
+        }
+        if(my.sprite.player.x > this.map.widthInPixels * SCALE && !this.lock) {
+            this.lock = true;
+            my.sfx.music.stop();
+            my.sprite.player.body.gravity = 0;
         }
     }
 
@@ -223,6 +257,26 @@ class Platformer extends Phaser.Scene {
             my.vfx.attack.explode(1);
             this.sound.play("Attack");
             this.attackTimer = this.ATTACK_COOLDOWN
+        }
+    }
+
+    enableDJ() {
+        this.doubleJumpOn = true;
+    }
+    
+    die() {
+        this.sound.play("Death");
+        my.sprite.player.body.setVelocity(0);
+        my.sprite.player.x = this.checkpoint.x*SCALE;
+        my.sprite.player.y = this.checkpoint.y*SCALE;
+    }
+
+    levelEnd() {
+        if(!this.controlSeized) {
+            this.controlSeized = true;
+            this.cameras.main.stopFollow();
+            my.sprite.player.setCollideWorldBounds(false);
+            this.sound.play("Win");
         }
     }
 }
