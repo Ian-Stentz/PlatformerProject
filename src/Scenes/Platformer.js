@@ -241,8 +241,6 @@ class Platformer extends Phaser.Scene {
     }
 
     update(time, delta) {
-        //this.cameras.main.setDeadzone(40, 40);
-
         for (let gem of this.gemGroup.getChildren()) {
             gem.y = gem.baseY + gem.displayHeight/8 * Math.sin(time/400);
         }

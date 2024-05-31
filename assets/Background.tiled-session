@@ -3,14 +3,15 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "PlatformerBackground.tmx",
+    "activeFile": "PlatformerFinal.tmx",
     "expandedProjectPaths": [
+        "."
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
     "fileStates": {
         "": {
             "scaleInDock": 1.5,
-            "scaleInEditor": 2
+            "scaleInEditor": 4
         },
         "PlatformerBackground.tmx": {
             "scale": 1,
@@ -24,23 +25,26 @@
             "scaleInDock": 1
         },
         "PlatformerFinal.tmx": {
-            "scale": 1.5,
+            "scale": 1,
             "selectedLayer": 3,
             "viewCenter": {
-                "x": 2403.6666666666665,
-                "y": 443
+                "x": 1097,
+                "y": 334.5
             }
         },
         "PlatformerFinal.tmx#Tileset_Base": {
             "scaleInDock": 1
         },
         "PlatformerFinal.tmx#Tileset_Characters": {
-            "scaleInDock": 1
+            "scaleInDock": 2
         },
         "PlatformerFinal.tmx#Tileset_Farm": {
             "scaleInDock": 1
         },
         "PlatformerFinal.tmx#Tileset_Industrial": {
+            "scaleInDock": 1
+        },
+        "PlatformerFinal.tmx#Tileset_Prompts": {
             "scaleInDock": 1
         }
     },
@@ -54,13 +58,14 @@
     "map.tileWidth": 24,
     "map.width": 135,
     "openFiles": [
-        "PlatformerBackground.tmx"
+        "PlatformerBackground.tmx",
+        "PlatformerFinal.tmx"
     ],
     "project": "Background.tiled-project",
     "property.type": "bool",
     "recentFiles": [
-        "PlatformerFinal.tmx",
-        "PlatformerBackground.tmx"
+        "PlatformerBackground.tmx",
+        "PlatformerFinal.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.tileSize": {
